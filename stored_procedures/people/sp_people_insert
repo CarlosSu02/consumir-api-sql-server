@@ -1,14 +1,17 @@
 
-CREATE PROCEDURE sp_films_insert 
+
+CREATE PROCEDURE sp_people_insert 
 AS
 BEGIN
 
-    DECLARE @url VARCHAR(MAX) = 'https://swapi.dev/api/films/'
+    DECLARE @url VARCHAR(MAX) = 'https://swapi.dev/api/people/'
     DECLARE @count INT = 0;
-    DECLARE @countFilms INT = 6;
+    DECLARE @countPeople INT;
+    EXEC sp_GetData @url, @countPeople OUT;
+
     DECLARE @responseJSON VARCHAR(MAX);
 
-    WHILE @count < @countFilms
+    WHILE @count < @countPeople
     BEGIN
 
 		SET @count = @count + 1;
