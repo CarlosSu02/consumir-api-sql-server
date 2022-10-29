@@ -1,15 +1,15 @@
 
-CREATE PROCEDURE sp_GetData @url VARCHAR(MAX), @option VARCHAR(MAX) = NULL, @result VARCHAR(MAX) OUTPUT
+CREATE PROCEDURE sp_GetData @url VARCHAR(MAX), @result VARCHAR(MAX) OUTPUT
 AS
 BEGIN
 
 	DECLARE 
 		@intToken INT,
 		@vchJSON VARCHAR(8000),
-		@status nvarchar(32),
-		@statusText nvarchar(32);
+		@status NVARCHAR(32),
+		@statusText NVARCHAR(32);
 
-	DECLARE @responseText table(content nvarchar(max));
+	DECLARE @responseText table(content NVARCHAR(max));
 	DECLARE @data VARCHAR(8000);
 	DECLARE @countChs INT;
 
@@ -17,9 +17,9 @@ BEGIN
 
 	EXEC sp_OAMethod @intToken, 'open', NULL, 'get', @url, 'false';
     EXEC sp_OAMethod @intToken, 'send';
-    EXEC sp_OAGetProperty @intToken, 'status', @status out;
-    EXEC sp_OAGetProperty @intToken, 'statusText', @statusText out;
-    EXEC sp_OAMethod @intToken, 'responseText', @vchJSON out;
+    EXEC sp_OAGetProperty @intToken, 'status', @status OUT;
+    EXEC sp_OAGetProperty @intToken, 'statusText', @statusText OUT;
+    EXEC sp_OAMethod @intToken, 'responseText', @vchJSON OUT;
 	INSERT INTO @responseText EXEC sp_OAMethod @intToken, 'responseText';
 
 	SET @data = (SELECT * FROM @responseText);
@@ -29,25 +29,31 @@ BEGIN
 	
 	EXEC sp_OADestroy @intToken;
 
-	IF (@option LIKE 'count' OR @url NOT LIKE '%[a-zA-Z]/[0-9]%')
+	IF (@url LIKE '%films/6')
+	BEGIN
+		SET @result = (SELECT * FROM @responseText);
+		RETURN;
+	END
+
+	IF (@url NOT LIKE '%[a-zA-Z]/[0-9]%')
 	BEGIN
 		SET @result = @countChs;
-		RETURN 1;
+		RETURN;
 	END
 
 	IF (ISJSON(@vchJSON) <> 1 OR @statusText <> 'OK')
 	BEGIN
-		RETURN 0;
+		RETURN;
 	END
 
 	-- PRINT @statusText;
 	-- PRINT @countChs;
 
 	SET @result = @vchJSON;
-	RETURN 1;
+	RETURN;
 
 END
 
 DECLARE @output VARCHAR(MAX);
-EXEC sp_testing2 N'https://swapi.dev/api/people/1', null, @output OUT;
+EXEC sp_GetData N'https://swapi.dev/api/films/6', @output OUT;
 PRINT @output;

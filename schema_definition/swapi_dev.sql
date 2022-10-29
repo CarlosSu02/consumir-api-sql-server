@@ -255,7 +255,7 @@ CREATE TABLE planets_people
     planet_id INT NOT NULL,
     person_id INT NOT NULL,
     PRIMARY KEY (planet_id, person_id),
-    FOREIGN KEY (planet_id) REFERENCES planet(id),
+    FOREIGN KEY (planet_id) REFERENCES planets(id),
     FOREIGN KEY (person_id) REFERENCES people(id)
 );
 GO
@@ -335,7 +335,7 @@ CREATE TABLE vehicles_films
     vehicle_id INT NOT NULL,
     film_id INT NOT NULL,
     PRIMARY KEY (vehicle_id, film_id),
-    FOREIGN KEY (pilot_id) REFERENCES vehicles(id),
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id),
     FOREIGN KEY (film_id) REFERENCES films(id)
 );
 GO
