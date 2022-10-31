@@ -43,6 +43,7 @@ BEGIN
 
 	IF (ISJSON(@resJSON) <> 1 OR @statusText <> 'OK')
 	BEGIN
+		SET @result = @statusText;
 		RETURN;
 	END
 

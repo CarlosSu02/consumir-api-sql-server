@@ -18,108 +18,113 @@ BEGIN
         DECLARE @newUrl VARCHAR(MAX) = @url + CAST(@count AS VARCHAR);
         EXEC sp_GetData @newUrl, @responseJSON OUT;
 
-        DECLARE @name VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'name');
-        DECLARE @rotation_period VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'rotation_period');
-        DECLARE @orbital_period VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'orbital_period');
-        DECLARE @diameter VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'diameter');
-        DECLARE @climate VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'climate');
-        DECLARE @gravity VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'gravity');
-        DECLARE @terrain VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'terrain');
-        DECLARE @surface_water VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'surface_water');
-        DECLARE @population VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'population');
-        DECLARE @created VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'created');
-        DECLARE @edited VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'edited');
-        DECLARE @urlFromJSON VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'url');
-        DECLARE @id INT;
-        EXEC sp_GetNumUrl @urlFromJSON, @id OUT;
+        IF (@responseJSON <> 'NOT FOUND')
+		BEGIN
 
-        INSERT INTO 
-            dbo.planets 
-            (id,
-            name, 
-            rotation_period, 
-            orbital_period, 
-            diameter, 
-            climate, 
-            gravity, 
-            terrain, 
-            surface_water, 
-            population, 
-            created, 
-            edited, 
-            url)
-        VALUES
-            (@id,
-            @name,
-            @rotation_period,
-            @orbital_period,
-            @diameter,
-            @climate,
-            @gravity,
-            @terrain,
-            @surface_water,
-            @population,
-            @created,
-            @edited,
-            @urlFromJSON);
+            DECLARE @name VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'name');
+            DECLARE @rotation_period VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'rotation_period');
+            DECLARE @orbital_period VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'orbital_period');
+            DECLARE @diameter VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'diameter');
+            DECLARE @climate VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'climate');
+            DECLARE @gravity VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'gravity');
+            DECLARE @terrain VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'terrain');
+            DECLARE @surface_water VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'surface_water');
+            DECLARE @population VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'population');
+            DECLARE @created VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'created');
+            DECLARE @edited VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'edited');
+            DECLARE @urlFromJSON VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'url');
+            DECLARE @id INT;
+            EXEC sp_GetNumUrl @urlFromJSON, @id OUT;
 
-        -- Planets_People
-        DECLARE @residents VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'residents');
+            INSERT INTO 
+                dbo.planets 
+                (id,
+                name, 
+                rotation_period, 
+                orbital_period, 
+                diameter, 
+                climate, 
+                gravity, 
+                terrain, 
+                surface_water, 
+                population, 
+                created, 
+                edited, 
+                url)
+            VALUES
+                (@id,
+                @name,
+                @rotation_period,
+                @orbital_period,
+                @diameter,
+                @climate,
+                @gravity,
+                @terrain,
+                @surface_water,
+                @population,
+                @created,
+                @edited,
+                @urlFromJSON);
 
-        IF ((SELECT COUNT(*) FROM OPENJSON(@residents)) > 0)
-        BEGIN
+            -- Planets_People
+            DECLARE @residents VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'residents');
 
-            DECLARE @count2 INT = 0;
-
-            WHILE @count2 < (SELECT COUNT(*) FROM OPENJSON(@residents))
+            IF ((SELECT COUNT(*) FROM OPENJSON(@residents)) > 0)
             BEGIN
 
-                DECLARE @residentUrl VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@residents) WHERE [key] = @count2);
-                DECLARE @person_id INT;
-                EXEC sp_GetNumUrl @residentUrl, @person_id OUT;      
-                
-                -- PRINT '@planets_people ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@person_id AS VARCHAR(MAX));
+                DECLARE @count2 INT = 0;
 
-                INSERT INTO 
-                    dbo.planets_people
-                VALUES
-                    (@id,
-                    @person_id);
+                WHILE @count2 < (SELECT COUNT(*) FROM OPENJSON(@residents))
+                BEGIN
 
-                SET @count2 = @count2 + 1;
+                    DECLARE @residentUrl VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@residents) WHERE [key] = @count2);
+                    DECLARE @person_id INT;
+                    EXEC sp_GetNumUrl @residentUrl, @person_id OUT;      
+                    
+                    -- PRINT '@planets_people ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@person_id AS VARCHAR(MAX));
 
+                    INSERT INTO 
+                        dbo.planets_people
+                    VALUES
+                        (@id,
+                        @person_id);
+
+                    SET @count2 = @count2 + 1;
+
+                END
+            
             END
-        
-        END
 
-        -- Films_Planets
-        DECLARE @films VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'films');
+            -- Films_Planets
+            DECLARE @films VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'films');
 
-        IF ((SELECT COUNT(*) FROM OPENJSON(@films)) > 0)
-        BEGIN
-
-            DECLARE @count3 INT = 0;
-
-            WHILE @count3 < (SELECT COUNT(*) FROM OPENJSON(@films))
+            IF ((SELECT COUNT(*) FROM OPENJSON(@films)) > 0)
             BEGIN
 
-                DECLARE @filmUrl VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@films) WHERE [key] = @count3);
-                DECLARE @film_id INT;
-                EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
-                
-                -- PRINT '@films_planets ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@film_id AS VARCHAR(MAX));
+                DECLARE @count3 INT = 0;
 
-                INSERT INTO 
-                    dbo.films_planets
-                VALUES
-                    (@film_id,
-                    @id);
+                WHILE @count3 < (SELECT COUNT(*) FROM OPENJSON(@films))
+                BEGIN
 
-                SET @count3 = @count3 + 1;
+                    DECLARE @filmUrl VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@films) WHERE [key] = @count3);
+                    DECLARE @film_id INT;
+                    EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
+                    
+                    -- PRINT '@films_planets ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@film_id AS VARCHAR(MAX));
 
+                    INSERT INTO 
+                        dbo.films_planets
+                    VALUES
+                        (@film_id,
+                        @id);
+
+                    SET @count3 = @count3 + 1;
+
+                END 
+            
             END 
-        
-        END  
+
+        END 
             
     END
 
