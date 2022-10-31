@@ -3,7 +3,7 @@ CREATE PROCEDURE sp_films_insert
 AS
 BEGIN
 
-    DECLARE @url VARCHAR(MAX) = 'https://swapi.dev/api/films/'
+    DECLARE @url VARCHAR(MAX) = 'https://swapi.dev/api/films/';
     DECLARE @count INT = 0;
     DECLARE @countFilms INT = 6;
     DECLARE @responseJSON VARCHAR(MAX);
@@ -13,7 +13,7 @@ BEGIN
 
 		SET @count = @count + 1;
 
-        DECLARE @newUrl VARCHAR(MAX) = @url + CAST(@count AS VARCHAR)
+        DECLARE @newUrl VARCHAR(MAX) = @url + CAST(@count AS VARCHAR);
         EXEC sp_GetData @newUrl, @responseJSON OUT;
 
         DECLARE @title VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'title');

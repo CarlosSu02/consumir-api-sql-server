@@ -5,7 +5,7 @@ BEGIN
 
 	DECLARE 
 		@intToken INT,
-		@vchJSON VARCHAR(8000),
+		@resJSON VARCHAR(8000),
 		@status NVARCHAR(32),
 		@statusText NVARCHAR(32);
 
@@ -19,7 +19,7 @@ BEGIN
     EXEC sp_OAMethod @intToken, 'send';
     EXEC sp_OAGetProperty @intToken, 'status', @status OUT;
     EXEC sp_OAGetProperty @intToken, 'statusText', @statusText OUT;
-    EXEC sp_OAMethod @intToken, 'responseText', @vchJSON OUT;
+    EXEC sp_OAMethod @intToken, 'responseText', @resJSON OUT;
 	INSERT INTO @responseText EXEC sp_OAMethod @intToken, 'responseText';
 
 	SET @data = (SELECT * FROM @responseText);
@@ -41,7 +41,7 @@ BEGIN
 		RETURN;
 	END
 
-	IF (ISJSON(@vchJSON) <> 1 OR @statusText <> 'OK')
+	IF (ISJSON(@resJSON) <> 1 OR @statusText <> 'OK')
 	BEGIN
 		RETURN;
 	END
@@ -49,7 +49,7 @@ BEGIN
 	-- PRINT @statusText;
 	-- PRINT @countChs;
 
-	SET @result = @vchJSON;
+	SET @result = @resJSON;
 	RETURN;
 
 END

@@ -59,7 +59,7 @@ CREATE TABLE planets
 );
 GO
 
--- Create a new table called 'species ' in schema 'swapi_dev'
+-- Create a new table called 'species' in schema 'swapi_dev'
 -- Drop the table if it already exists
 IF OBJECT_ID('species', 'U') IS NOT NULL
 DROP TABLE species
@@ -102,11 +102,9 @@ CREATE TABLE people
     eye_color [VARCHAR](MAX) NOT NULL,
     birth_year [VARCHAR](MAX) NOT NULL,
     gender [VARCHAR](MAX) NOT NULL,
-    homeworld INT NULL,
     created [VARCHAR](MAX) NOT NULL,
     edited [VARCHAR](MAX) NOT NULL,
-    url [VARCHAR](MAX) NOT NULL,
-    FOREIGN KEY (homeworld) REFERENCES planets(id)
+    url [VARCHAR](MAX) NOT NULL
 );
 GO
 
@@ -164,7 +162,7 @@ CREATE TABLE starships
 );
 GO
 
--- Create a new table called 'films_characters' in schema 'swapi_dev'
+-- Create a new table called 'films_people' in schema 'swapi_dev'
 -- Drop the table if it already exists
 IF OBJECT_ID('films_people', 'U') IS NOT NULL
 DROP TABLE films_people
@@ -244,7 +242,7 @@ CREATE TABLE films_species
 );
 GO
 
--- Create a new table called 'films_characters' in schema 'swapi_dev'
+-- Create a new table called 'planets_people' in schema 'swapi_dev'
 -- Drop the table if it already exists
 IF OBJECT_ID('planets_people', 'U') IS NOT NULL
 DROP TABLE planets_people
@@ -260,7 +258,7 @@ CREATE TABLE planets_people
 );
 GO
 
--- Create a new table called 'films_characters' in schema 'swapi_dev'
+-- Create a new table called 'species_people' in schema 'swapi_dev'
 -- Drop the table if it already exists
 IF OBJECT_ID('species_people', 'U') IS NOT NULL
 DROP TABLE species_people
@@ -276,7 +274,7 @@ CREATE TABLE species_people
 );
 GO
 
--- Create a new table called 'films_characters' in schema 'swapi_dev'
+-- Create a new table called 'people_vehicles' in schema 'swapi_dev'
 -- Drop the table if it already exists
 IF OBJECT_ID('people_vehicles', 'U') IS NOT NULL
 DROP TABLE people_vehicles
@@ -292,7 +290,7 @@ CREATE TABLE people_vehicles
 );
 GO
 
--- Create a new table called 'films_characters' in schema 'swapi_dev'
+-- Create a new table called 'people_starships' in schema 'swapi_dev'
 -- Drop the table if it already exists
 IF OBJECT_ID('people_starships', 'U') IS NOT NULL
 DROP TABLE people_starships
@@ -305,37 +303,5 @@ CREATE TABLE people_starships
     PRIMARY KEY (person_id, starship_id),
     FOREIGN KEY (person_id) REFERENCES people(id),
     FOREIGN KEY (starship_id) REFERENCES starships(id)
-);
-GO
-
--- Create a new table called 'films_characters' in schema 'swapi_dev'
--- Drop the table if it already exists
-IF OBJECT_ID('vehicles_people', 'U') IS NOT NULL
-DROP TABLE vehicles_people
-GO
--- Create the table in the specified schema
-CREATE TABLE vehicles_people
-(
-    vehicle_id INT NOT NULL,
-    person_id INT NOT NULL,
-    PRIMARY KEY (vehicle_id, person_id),
-    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id),
-    FOREIGN KEY (person_id) REFERENCES people(id)
-);
-GO
-
--- Create a new table called 'films_characters' in schema 'swapi_dev'
--- Drop the table if it already exists
-IF OBJECT_ID('vehicles_films', 'U') IS NOT NULL
-DROP TABLE vehicles_films
-GO
--- Create the table in the specified schema
-CREATE TABLE vehicles_films
-(
-    vehicle_id INT NOT NULL,
-    film_id INT NOT NULL,
-    PRIMARY KEY (vehicle_id, film_id),
-    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id),
-    FOREIGN KEY (film_id) REFERENCES films(id)
 );
 GO

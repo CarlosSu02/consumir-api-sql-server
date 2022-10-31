@@ -3,7 +3,7 @@ CREATE PROCEDURE sp_planets_insert
 AS
 BEGIN
 
-    DECLARE @url VARCHAR(MAX) = 'https://swapi.dev/api/planets/'
+    DECLARE @url VARCHAR(MAX) = 'https://swapi.dev/api/planets/';
     DECLARE @count INT = 0;
     DECLARE @countPlanets INT;
     EXEC sp_GetData @url, @countPlanets OUT;
@@ -15,7 +15,7 @@ BEGIN
 
 		SET @count = @count + 1;
 
-        DECLARE @newUrl VARCHAR(MAX) = @url + CAST(@count AS VARCHAR)
+        DECLARE @newUrl VARCHAR(MAX) = @url + CAST(@count AS VARCHAR);
         EXEC sp_GetData @newUrl, @responseJSON OUT;
 
         DECLARE @name VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'name');
@@ -62,7 +62,65 @@ BEGIN
             @created,
             @edited,
             @urlFromJSON);
+
+        -- Planets_People
+        DECLARE @residents VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'residents');
+
+        IF ((SELECT COUNT(*) FROM OPENJSON(@residents)) > 0)
+        BEGIN
+
+            DECLARE @count2 INT = 0;
+
+            WHILE @count2 < (SELECT COUNT(*) FROM OPENJSON(@residents))
+            BEGIN
+
+                DECLARE @residentUrl VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@residents) WHERE [key] = @count2);
+                DECLARE @person_id INT;
+                EXEC sp_GetNumUrl @residentUrl, @person_id OUT;      
+                
+                -- PRINT '@planets_people ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@person_id AS VARCHAR(MAX));
+
+                INSERT INTO 
+                    dbo.planets_people
+                VALUES
+                    (@id,
+                    @person_id);
+
+                SET @count2 = @count2 + 1;
+
+            END
         
+        END
+
+        -- Films_Planets
+        DECLARE @films VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'films');
+
+        IF ((SELECT COUNT(*) FROM OPENJSON(@films)) > 0)
+        BEGIN
+
+            DECLARE @count3 INT = 0;
+
+            WHILE @count3 < (SELECT COUNT(*) FROM OPENJSON(@films))
+            BEGIN
+
+                DECLARE @filmUrl VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@films) WHERE [key] = @count3);
+                DECLARE @film_id INT;
+                EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
+                
+                -- PRINT '@films_planets ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@film_id AS VARCHAR(MAX));
+
+                INSERT INTO 
+                    dbo.films_planets
+                VALUES
+                    (@film_id,
+                    @id);
+
+                SET @count3 = @count3 + 1;
+
+            END 
+        
+        END  
+            
     END
 
     RETURN;
