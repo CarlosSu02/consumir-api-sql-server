@@ -10,7 +10,7 @@ BEGIN
 
     DECLARE @responseJSON VARCHAR(MAX);
 
-    WHILE @count <= @countPeople
+    WHILE (SELECT COUNT(*) FROM dbo.people) <= @countPeople
     BEGIN
 
 		SET @count = @count + 1;

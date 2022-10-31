@@ -5,11 +5,12 @@ BEGIN
 
     DECLARE @url VARCHAR(MAX) = 'https://swapi.dev/api/vehicles/';
     DECLARE @count INT = 0;
-    DECLARE @countVehicles INT = 76
+    DECLARE @countVehicles INT;
+    EXEC sp_GetData @url, @countVehicles OUTPUT;
 
     DECLARE @responseJSON VARCHAR(MAX);
 
-    WHILE @count < @countVehicles
+    WHILE (SELECT COUNT(*) FROM dbo.vehicles) < @countVehicles
     BEGIN
 
 		SET @count = @count + 1;

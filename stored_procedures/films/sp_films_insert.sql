@@ -8,7 +8,7 @@ BEGIN
     DECLARE @countFilms INT = 6;
     DECLARE @responseJSON VARCHAR(MAX);
 
-    WHILE @count < @countFilms
+    WHILE (SELECT COUNT(*) FROM dbo.films) < @countFilms
     BEGIN
 
 		SET @count = @count + 1;

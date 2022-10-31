@@ -10,7 +10,7 @@ BEGIN
 
     DECLARE @responseJSON VARCHAR(MAX);
 
-    WHILE @count < @countSpecies
+    WHILE (SELECT COUNT(*) FROM dbo.species) < @countSpecies
     BEGIN
 
 		SET @count = @count + 1;
