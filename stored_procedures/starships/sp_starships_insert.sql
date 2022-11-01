@@ -10,7 +10,7 @@ BEGIN
 
     DECLARE @responseJSON VARCHAR(MAX);
 
-    WHILE @count < @countStarships
+    WHILE (SELECT COUNT(*) FROM dbo.starships) < @countStarships
     BEGIN
 
 		SET @count = @count + 1;
@@ -79,7 +79,7 @@ BEGIN
                 @urlFromJSON);
 
             -- People_Starships
-            DECLARE @people VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'people');
+            DECLARE @people VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'pilots');
 
             IF ((SELECT COUNT(*) FROM OPENJSON(@people)) > 0)
             BEGIN
@@ -98,8 +98,8 @@ BEGIN
                     INSERT INTO 
                         dbo.people_starships
                     VALUES
-                        (@id,
-                        @person_id);
+                        (@person_id,
+                        @id);
 
                     SET @count2 = @count2 + 1;
 
@@ -107,7 +107,7 @@ BEGIN
             
             END
 
-            -- Films_Species
+            -- Films_Starships
             DECLARE @films VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'films');
 
             IF ((SELECT COUNT(*) FROM OPENJSON(@films)) > 0)
@@ -122,7 +122,7 @@ BEGIN
                     DECLARE @film_id INT;
                     EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
                     
-                    -- PRINT '@films_starships ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@film_id AS VARCHAR(MAX));
+                    -- PRINT '@films_starships ' + CAST(@film_id AS VARCHAR(MAX)) + ' num: ' + CAST(@id AS VARCHAR(MAX));
 
                     INSERT INTO 
                         dbo.films_starships

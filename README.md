@@ -18,3 +18,4 @@ Pasos:
     5. [```sp_planets_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_planets_insert.sql)
     6. [```sp_species_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_species_insert.sql)
     7. [```sp_vehicles_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_vehicles_insert.sql)    
+    8. [```sp_starships_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_starships_insert.sql)    
