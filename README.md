@@ -8,7 +8,9 @@ Alumnos:
 
 <br>
 
-Pasos:
+> Ejecutar el scirpt [```AllQuerys.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/AllQuerys.sql) para crear la base de datos, crear y ejecutar los procedimientos almacenados.
+
+<!-- Pasos:
 1. Ir a la carpeta de '[```schema_definition```](https://github.com/CarlosSu02/consumir-api-sql-server/tree/main/schema_definition)' y ejecutar el script '[```OleAutomationProcedures.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/schema_definition/OleAutomationProcedures.sql)' y también ejecutar el script '[```swapi_dev.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/schema_definition/swapi_dev.sql)' para crear la base de datos.
 2. Ir a la carpeta de '[```stored_procedures```](https://github.com/CarlosSu02/consumir-api-sql-server/tree/main/stored_procedures)' y ejecutar todos los scripts para crear las stored procedures, el orden de los sp es el siguiente:
     1. [```sp_GetData.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/sp_GetData.sql)
@@ -18,4 +20,4 @@ Pasos:
     5. [```sp_planets_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_planets_insert.sql)
     6. [```sp_species_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_species_insert.sql)
     7. [```sp_vehicles_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_vehicles_insert.sql)    
-    8. [```sp_starships_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_starships_insert.sql)    
+    8. [```sp_starships_insert.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/stored_procedures/planets/sp_starships_insert.sql)     -->
