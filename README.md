@@ -8,7 +8,7 @@ Alumnos:
 
 <br>
 
-> Ejecutar el scirpt [```AllQuerys.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/AllQuerys.sql) para crear la base de datos, crear y ejecutar los procedimientos almacenados.
+> Ejecutar el script [```AllQuerys.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/AllQuerys.sql) para crear la base de datos, crear y ejecutar los procedimientos almacenados de una sola vez.
 
 <!-- Pasos:
 1. Ir a la carpeta de '[```schema_definition```](https://github.com/CarlosSu02/consumir-api-sql-server/tree/main/schema_definition)' y ejecutar el script '[```OleAutomationProcedures.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/schema_definition/OleAutomationProcedures.sql)' y también ejecutar el script '[```swapi_dev.sql```](https://github.com/CarlosSu02/consumir-api-sql-server/blob/main/schema_definition/swapi_dev.sql)' para crear la base de datos.
