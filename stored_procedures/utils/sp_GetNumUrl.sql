@@ -6,9 +6,7 @@ BEGIN
     IF (@url LIKE '%[a-zA-Z]/[0-9]%')
     BEGIN
 
-        -- PRINT (SUBSTRING(@url, PATINDEX('%[0-9]%', @url), LEN(@url)));
         DECLARE @pat VARCHAR(MAX) = (SUBSTRING(@url, PATINDEX('%[0-9]%', @url), LEN(@url)));
-        -- DECLARE @num INT;
 
         IF (@pat LIKE '%/')
         BEGIN
@@ -17,7 +15,6 @@ BEGIN
         END
 
         SET @id = CAST(@pat AS INT);
-        -- PRINT @num;
 
         RETURN;
 
@@ -27,6 +24,6 @@ BEGIN
 
 END
 
-DECLARE @id1 INT;
-EXEC sp_GetNumUrl N'https://swapi.dev/api/starships/1233333/', @id1 OUT
-PRINT @id1;
+DECLARE @idUrl INT;
+EXEC sp_GetNumUrl N'https://swapi.dev/api/starships/12/', @idUrl OUT
+PRINT @idUrl;

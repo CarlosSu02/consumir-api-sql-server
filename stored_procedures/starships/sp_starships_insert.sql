@@ -93,8 +93,6 @@ BEGIN
                     DECLARE @person_id INT;
                     EXEC sp_GetNumUrl @peopleUrl, @person_id OUT;      
                     
-                    -- PRINT '@people_starships ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@person_id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.people_starships
                     VALUES
@@ -122,8 +120,6 @@ BEGIN
                     DECLARE @film_id INT;
                     EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
                     
-                    -- PRINT '@films_starships ' + CAST(@film_id AS VARCHAR(MAX)) + ' num: ' + CAST(@id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.films_starships
                     VALUES

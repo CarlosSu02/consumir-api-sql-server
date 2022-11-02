@@ -24,8 +24,6 @@ BEGIN
 
 	SET @data = (SELECT * FROM @responseText);
 	SET @countChs = (SELECT [value] FROM OPENJSON(@data) WHERE [key] = 'count');
-
-	-- PRINT @url;
 	
 	EXEC sp_OADestroy @intToken;
 
@@ -46,9 +44,6 @@ BEGIN
 		SET @result = @statusText;
 		RETURN;
 	END
-
-	-- PRINT @statusText;
-	-- PRINT @countChs;
 
 	SET @result = @resJSON;
 	RETURN;

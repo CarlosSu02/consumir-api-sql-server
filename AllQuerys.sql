@@ -344,8 +344,6 @@ BEGIN
 
 	SET @data = (SELECT * FROM @responseText);
 	SET @countChs = (SELECT [value] FROM OPENJSON(@data) WHERE [key] = 'count');
-
-	-- PRINT @url;
 	
 	EXEC sp_OADestroy @intToken;
 
@@ -367,9 +365,6 @@ BEGIN
 		RETURN;
 	END
 
-	-- PRINT @statusText;
-	-- PRINT @countChs;
-
 	SET @result = @resJSON;
 	RETURN;
 
@@ -384,9 +379,7 @@ BEGIN
     IF (@url LIKE '%[a-zA-Z]/[0-9]%')
     BEGIN
 
-        -- PRINT (SUBSTRING(@url, PATINDEX('%[0-9]%', @url), LEN(@url)));
         DECLARE @pat VARCHAR(MAX) = (SUBSTRING(@url, PATINDEX('%[0-9]%', @url), LEN(@url)));
-        -- DECLARE @num INT;
 
         IF (@pat LIKE '%/')
         BEGIN
@@ -395,7 +388,6 @@ BEGIN
         END
 
         SET @id = CAST(@pat AS INT);
-        -- PRINT @num;
 
         RETURN;
 
@@ -538,8 +530,6 @@ BEGIN
                 @edited,
                 @urlFromJSON);
             
-            -- PRINT '@people ' + CAST(@id AS VARCHAR(MAX));
-
             -- Films_People
             DECLARE @films VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'films');
 
@@ -555,8 +545,6 @@ BEGIN
                     DECLARE @film_id INT;
                     EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
                     
-                    -- PRINT '@films_people ' + CAST(@film_id AS VARCHAR(MAX)) + ' num: ' + CAST(@id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.films_people
                     VALUES
@@ -661,8 +649,6 @@ BEGIN
                     DECLARE @person_id INT;
                     EXEC sp_GetNumUrl @residentUrl, @person_id OUT;      
                     
-                    -- PRINT '@planets_people ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@person_id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.planets_people
                     VALUES
@@ -690,8 +676,6 @@ BEGIN
                     DECLARE @film_id INT;
                     EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
                     
-                    -- PRINT '@films_planets ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@film_id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.films_planets
                     VALUES
@@ -802,8 +786,6 @@ BEGIN
                     DECLARE @person_id INT;
                     EXEC sp_GetNumUrl @peopleUrl, @person_id OUT;      
                     
-                    -- PRINT '@species_people ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@person_id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.species_people
                     VALUES
@@ -831,8 +813,6 @@ BEGIN
                     DECLARE @film_id INT;
                     EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
                     
-                    -- PRINT '@films_species ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@film_id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.films_species
                     VALUES
@@ -949,8 +929,6 @@ BEGIN
                     DECLARE @person_id INT;
                     EXEC sp_GetNumUrl @peopleUrl, @person_id OUT;      
                     
-                    -- PRINT '@people_starships ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@person_id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.people_starships
                     VALUES
@@ -978,8 +956,6 @@ BEGIN
                     DECLARE @film_id INT;
                     EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
                     
-                    -- PRINT '@films_starships ' + CAST(@film_id AS VARCHAR(MAX)) + ' num: ' + CAST(@id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.films_starships
                     VALUES
@@ -1090,8 +1066,6 @@ BEGIN
                     DECLARE @person_id INT;
                     EXEC sp_GetNumUrl @pilotsUrl, @person_id OUT;      
                     
-                    -- PRINT '@people_vehicles ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@person_id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.people_vehicles
                     VALUES
@@ -1119,8 +1093,6 @@ BEGIN
                     DECLARE @film_id INT;
                     EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
                     
-                    -- PRINT '@films_vehicles ' + CAST(@id AS VARCHAR(MAX)) + ' num: ' + CAST(@film_id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.films_vehicles
                     VALUES

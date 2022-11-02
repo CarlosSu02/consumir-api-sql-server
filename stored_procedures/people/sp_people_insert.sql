@@ -63,8 +63,6 @@ BEGIN
                 @edited,
                 @urlFromJSON);
             
-            -- PRINT '@people ' + CAST(@id AS VARCHAR(MAX));
-
             -- Films_People
             DECLARE @films VARCHAR(MAX) = (SELECT [value] FROM OPENJSON(@responseJSON) WHERE [key] = 'films');
 
@@ -80,8 +78,6 @@ BEGIN
                     DECLARE @film_id INT;
                     EXEC sp_GetNumUrl @filmUrl, @film_id OUT;      
                     
-                    -- PRINT '@films_people ' + CAST(@film_id AS VARCHAR(MAX)) + ' num: ' + CAST(@id AS VARCHAR(MAX));
-
                     INSERT INTO 
                         dbo.films_people
                     VALUES
